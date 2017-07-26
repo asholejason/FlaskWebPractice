@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Flask - About{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>About Flask</h1>
+</div>
+
+<div>
+    <p>This is <strong>Flask's about page.</strong></p>
+    <p>Here's a picture of Flask!</p>
+
+    <img src="{{ url_for('static', filename='images/logo-flask.png') }}" alt="a rango picture" />
+</div>
+{% endblock %}
