@@ -10,7 +10,9 @@ class Config:
                  'ao%$%^xghy5uabzpyo1fo=5jlb6btw8i%nmf1&+fpe-zfnr+_+'
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
     FLASKY_MAIL_SUBJECT_PREFIX = '[Flasky]'
+    # FLASKY_MAIL_SENDER = os.environ.get('FLASKY_MAIL_SENDER')
     FLASKY_MAIL_SENDER = os.environ.get('FLASKY_MAIL_SENDER')
+    # FLASKY_ADMIN = os.environ.get('FLASKY_ADMIN')
     FLASKY_ADMIN = os.environ.get('FLASKY_ADMIN')
 
     SQLALCHEMY_TRACK_MODIFICATIONS = True

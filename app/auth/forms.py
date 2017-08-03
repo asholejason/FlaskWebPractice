@@ -4,6 +4,7 @@ from wtforms.validators import DataRequired, Length, Email, Regexp, EqualTo
 from wtforms import ValidationError
 from ..models import User
 
+
 class LoginForm(Form):
     email = StringField('Email', validators=[DataRequired(), Length(1, 64), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
@@ -33,3 +34,19 @@ class RegisterForm(Form):
         if User.query.filter_by(username=field.data).first():
             raise ValidationError('Username already in use.')
 
+
+class ChangePasswordForm(Form):
+    password = PasswordField('Old Password', validators=[DataRequired()])
+    password1 = PasswordField('New Password', validators=[DataRequired(),
+                                                          EqualTo('password2',
+                                                                  message='Password must match.')])
+    password2 = PasswordField('Confirm password', validators=[DataRequired()])
+    submit = SubmitField('Submit')
+
+
+class ResetPasswordForm(Form):
+    password1 = PasswordField('New Password', validators=[DataRequired(),
+                                                          EqualTo('password2',
+                                                                  message='Password must match.')])
+    password2 = PasswordField('Confirm password', validators=[DataRequired()])
+    submit = SubmitField('Submit')

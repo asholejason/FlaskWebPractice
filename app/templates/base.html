@@ -35,6 +35,8 @@
                 <li><a href="{{ url_for('main.index') }}">Home</a></li>
                 <li><a href="{{ url_for('main.user') }}">User</a></li>
                 <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+                <li><a href="{{ url_for('auth.change_password') }}">ChangePassword</a></li>
+                <li><a href="{{ url_for('auth.reset_password') }}">ResetPassword</a></li>
                 <li><a href="{{ url_for('main.secret') }}">Secret</a></li>
             {% else %}
                 <li><a href="{{ url_for('auth.login') }}">Login</a></li>
