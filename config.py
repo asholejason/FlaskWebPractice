@@ -3,6 +3,7 @@ import os
 
 BASEDIR = os.path.abspath(os.path.dirname(__file__))
 
+
 class Config:
     CSRF_ENABLED = True
     SECRET_KEY = os.environ.get('SECRET_KEY') or \
@@ -13,6 +14,9 @@ class Config:
     FLASKY_ADMIN = os.environ.get('FLASKY_ADMIN')
 
     SQLALCHEMY_TRACK_MODIFICATIONS = True
+    # page
+    FLASKY_POSTS_PER_PAGE = 5
+    FLASKY_USERS_PER_PAGE = 10
 
     @staticmethod
     def init_app(app):

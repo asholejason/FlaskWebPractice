@@ -10,39 +10,16 @@ from app.decorators import admin_required
 
 @main.route('/', methods=['GET', 'POST'])
 def index():
-    form = PostForm()
-    if current_user.can(Permission.WRITE_ARTICLES) and form.validate_on_submit():
-        post = Post(body=form.body.data,
-        author=current_user._get_current_object())
-        db.session.add(post)
-        return redirect(url_for('.index'))
-    # posts = Post.query.order_by(Post.timestamp.desc()).all()
-    # page
-    page = request.args.get('page', 1, type=int)
-    pagination = Post.query.order_by(Post.timestamp.desc()).paginate(
-        page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'], error_out=False
-    )
-    posts = pagination.items
     return render_template('index.html',
                            name=session.get('name'),
                            current_time=datetime.utcnow(),
-                           known=session.get('known'),
-                           form=form,
-                           posts=posts,
-                           pagination=pagination)
+                           known=session.get('known'))
 
 
 @main.route('/userinfo', methods=['GET', 'POST'])
 def userinfo():
-
-    page = request.args.get('page', 1, type=int)
-    pagination = User.query.order_by(User.id).paginate(
-        page, per_page=current_app.config['FLASKY_USERS_PER_PAGE'], error_out=False
-    )
-    users = pagination.items
-    return render_template('userinfo.html',
-                           users=users,
-                           pagination=pagination)
+    users = User.query.all()
+    return render_template('userinfo.html', users=users)
 
 
 @main.route('/about')
@@ -61,8 +38,7 @@ def user(username):
     user = User.query.filter_by(username=username).first()
     if user is None:
         abort(404)
-    posts = user.posts.order_by(Post.timestamp.desc()).all()
-    return render_template('user.html', user=user, posts=posts)
+    return render_template('user.html', user=user)
 
 
 @main.route('/edit-profile', methods=['GET', 'POST'])
@@ -136,23 +112,14 @@ def delete_user(id):
     return render_template('delete_user.html', form=form, user=user)
 
 
-@main.route('/post/<int:id>')
-def post(id):
-    post = Post.query.get_or_404(id)
-    return render_template('posts.html', posts=[post])
-
-
-@main.route('/edit/<int:id>', methods=['GET', 'POST'])
+@main.route('/', methods=['GET', 'POST'])
 @login_required
-def edit(id):
-    post = Post.query.get_or_404(id)
-    if current_user != post.author and not current_user.can(Permission.ADMINISTER):
-        abort(403)
+def post(id):
     form = PostForm()
-    if form.validate_on_submit():
-        post.body = form.body.data
+    if current_user.can(Permission.WRITE_ARTICLES) and form.validate_on_submit():
+        post = Post(body=form.body.data,
+                    author=current_user._get_current_object())
         db.session.add(post)
-        flash('The post has been updated.')
-        return redirect(url_for('.post', id=post.id))
-    form.body.data = post.body
-    return render_template('edit_post.html', form=form)
+        return redirect(url_for('.index'))
+    posts = Post.query.order_by(Post.timestamp.desc()).all
+    return render_template('index.html', form=form, posts=posts)
