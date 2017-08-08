@@ -82,7 +82,7 @@ def unconfirmed():
 @login_required
 def resend_confirmation():
     token = current_user.generate_confirmation_token()
-    send_email('1009772684@qq.com',
+    send_email(current_user.email,
                'Confirm Your Account',
                'auth/email/confirm',
                user=current_user,
@@ -111,7 +111,7 @@ def change_password():
 def reset_password():
     user = current_user
     token = user.generate_confirmation_token()
-    send_email('1009772684@qq.com',
+    send_email(user.email,
                'Reset Your Password',
                'auth/email/resetpassword',
                user=user,
