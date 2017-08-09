@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
+{% import "_macros.html" as macros %}
 
 {% block title %}Flask - Index{% endblock %}
 
@@ -20,22 +21,37 @@
     <p>Pleased to meat you!</p>
     {% endif %}
 
-    <div>
-        {% if current_user.can(Permission.WRITE_ARTICLES) %}
-            {{ wtf.quick_form(form) }}
-        {% endif %}
-    </div>
-
-    <ul class="posts">
-    {% for post in posts %}
-        <li>{{ post.body }}</li>
-    {% endfor %}
-    </ul>
-
 </div>
+<div>
+    {% if current_user.can(Permission.WRITE_ARTICLES) %}
+        {{ wtf.quick_form(form) }}
+    {% endif %}
+</div>
+
+<div class="post-tabs">
+    <ul class="nav nav-tabs">
+        <li{% if not show_followed %} class="active"{% endif %}><a href="{{ url_for('.show_all') }}">All</a></li>
+        {% if current_user.is_authenticated %}
+        <li{% if show_followed %} class="active"{% endif %}><a href="{{ url_for('.show_followed') }}">Followers</a></li>
+        {% endif %}
+    </ul>
+    {% include '_posts.html' %}
+</div>
+
+
+{% if pagination %}
+<div class="pagination">
+    {{ macros.pagination_widget(pagination, '.index') }}
+</div>
+{% endif %}
 
 <div>
     <p>The local time is {{ moment(current_time).format('LLL') }}.</p>
     <p>That was {{ moment(current_time).fromNow(refresh=True) }}</p>
 </div>
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    {{ pagedown.include_pagedown() }}
 {% endblock %}

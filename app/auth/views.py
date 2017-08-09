@@ -38,7 +38,7 @@ def register():
         db.session.add(user)
         db.session.commit()
         token = user.generate_confirmation_token()
-        send_email('1009772684@qq.com',
+        send_email(user.email,
                    'Confirm Your Account',
                    'auth/email/confirm',
                    user=user,

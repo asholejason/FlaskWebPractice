@@ -19,6 +19,8 @@ class Config:
     FLASKY_USERS_PER_PAGE = 10
     # follow
     FLASKY_FOLLOWERS_PER_PAGE = 5
+    FLASKY_SLOW_DB_QUERY_TIME = 0.5
+    FLASK_COMMENTS_PER_PAGE = 5
 
     @staticmethod
     def init_app(app):
