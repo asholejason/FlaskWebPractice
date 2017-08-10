@@ -1,14 +1,14 @@
 # FlaskWebPractice
 
 ## init db
-$ python manage db init
-$ python manage db migrate
-$ python manage db upgrade
+$ python manage db init\<br>
+$ python manage db migrate\<br>
+$ python manage db upgrade\<br>
 
-# insert role
-python manage shell
-from app.models import Role
-Role.insert_roles()
+## insert role
+python manage shell\<br>
+from app.models import Role\<br>
+Role.insert_roles()\<br>
 
 ## start server
-python manage runserver --host 0.0.0.0
+$ python manage runserver --host 0.0.0.0
