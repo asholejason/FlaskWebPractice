@@ -1,7 +1,7 @@
 # FlaskWebPractice
 
 ## init db
-$ python manage db init\<br>
+$ python manage db init<br>
 $ python manage db migrate\<br>
 $ python manage db upgrade\<br>
 
